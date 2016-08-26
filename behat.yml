@@ -1,3 +1,9 @@
 default:
   suites:
-    default: ~
+    default:
+      contexts:
+        - ApplicationContext
+        - FilesystemContext
+
+  autoload:
+    "": "%paths.base%/vendor/phpspec/phpspec/features/bootstrap"
