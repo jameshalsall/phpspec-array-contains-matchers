@@ -1,6 +1,6 @@
 {
     "name": "jameshalsall/phpspec-array-contains-matchers",
-    "description": "Providers additional contains matchers for PHPSpec",
+    "description": "Provides additional contains matchers for PHPSpec",
     "type": "phpspec-extensions",
     "require": {
         "php": ">=5.6",
