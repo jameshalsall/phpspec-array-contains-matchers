@@ -2,16 +2,16 @@
 
 namespace spec\JamesHalsall\PhpSpecContainsMatchers\Matcher;
 
-use JamesHalsall\PhpSpecContainsMatchers\Matcher\ContainOnlyMatcher;
+use JamesHalsall\PhpSpecContainsMatchers\Matcher\ArrayContainOnlyMatcher;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
 use PhpSpec\ObjectBehavior;
 
-class ContainOnlyMatcherSpec extends ObjectBehavior
+class ArrayContainOnlyMatcherSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(ContainOnlyMatcher::class);
+        $this->shouldHaveType(ArrayContainOnlyMatcher::class);
     }
 
     function it_is_a_matcher()

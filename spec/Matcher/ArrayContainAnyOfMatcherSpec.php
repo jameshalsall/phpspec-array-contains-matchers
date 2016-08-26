@@ -2,16 +2,16 @@
 
 namespace spec\JamesHalsall\PhpSpecContainsMatchers\Matcher;
 
-use JamesHalsall\PhpSpecContainsMatchers\Matcher\ContainAnyOfMatcher;
+use JamesHalsall\PhpSpecContainsMatchers\Matcher\ArrayContainAnyOfMatcher;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
 use PhpSpec\ObjectBehavior;
 
-class ContainAnyOfMatcherSpec extends ObjectBehavior
+class ArrayContainAnyOfMatcherSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(ContainAnyOfMatcher::class);
+        $this->shouldHaveType(ArrayContainAnyOfMatcher::class);
     }
 
     function it_is_a_matcher()
