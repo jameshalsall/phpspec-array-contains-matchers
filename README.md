@@ -1,5 +1,7 @@
 # PHPSpec Array Contains Matchers
 
+[![Build Status](https://travis-ci.org/jameshalsall/phpspec-array-contains-matchers.svg?branch=master)](https://travis-ci.org/jameshalsall/phpspec-array-contains-matchers)
+
 Provides additional contains matchers for arrays in PHPSpec
 
 ## Requirements
