@@ -1,5 +1,5 @@
 {
-    "name": "jameshalsall/phpspec-contains-matchers",
+    "name": "jameshalsall/phpspec-array-contains-matchers",
     "description": "Providers additional contains matchers for PHPSpec",
     "type": "phpspec-extensions",
     "require": {
