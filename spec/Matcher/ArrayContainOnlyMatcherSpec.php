@@ -61,4 +61,9 @@ class ArrayContainOnlyMatcherSpec extends ObjectBehavior
         $this->shouldThrow(FailureException::class)->duringNegativeMatch('containOnly', [1, 2], [1, 2]);
         $this->shouldThrow(FailureException::class)->duringNegativeMatch('containOnly', ['foo', 'bar'], ['foo', 'bar']);
     }
+
+    function it_has_no_priority()
+    {
+        return 0;
+    }
 }

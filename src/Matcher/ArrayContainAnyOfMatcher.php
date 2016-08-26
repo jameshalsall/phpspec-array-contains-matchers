@@ -60,6 +60,6 @@ class ArrayContainAnyOfMatcher implements Matcher
      */
     public function getPriority()
     {
-        // TODO: Implement getPriority() method.
+        return 0;
     }
 }

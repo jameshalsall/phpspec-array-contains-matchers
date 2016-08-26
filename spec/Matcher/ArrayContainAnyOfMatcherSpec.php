@@ -61,4 +61,9 @@ class ArrayContainAnyOfMatcherSpec extends ObjectBehavior
     {
         $this->shouldThrow(FailureException::class)->duringNegativeMatch('containAnyOf', [1, 2], [2, 3]);
     }
+
+    function it_has_no_priority()
+    {
+        $this->getPriority()->shouldReturn(0);
+    }
 }
