@@ -1,0 +1,26 @@
+{
+    "name": "jameshalsall/phpspec-contains-matchers",
+    "description": "Providers additional contains matchers for PHPSpec",
+    "type": "phpspec-extensions",
+    "require": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "require-dev": {
+        "behat/behat": "^3.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Halsall",
+            "email": "james.t.halsall@googlemail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JamesHalsall\\PhpSpecContainsMatchers\\": "src"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

@@ -1,0 +1,4 @@
+suites:
+  default:
+    namespace: JamesHalsall\PhpSpecContainsMatchers
+    psr4_prefix: JamesHalsall\PhpSpecContainsMatchers
