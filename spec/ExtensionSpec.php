@@ -33,4 +33,11 @@ class ExtensionSpec extends ObjectBehavior
 
         $container->define('jameshalsall.matchers.contain_only', Argument::type('callable'), ['matchers'])->shouldHaveBeenCalled();
     }
+
+    function it_should_define_a_contain_all_of_matcher(ServiceContainer $container)
+    {
+        $this->load($container, []);
+
+        $container->define('jameshalsall.matchers.contain_all_of', Argument::type('callable'), ['matchers'])->shouldHaveBeenCalled();
+    }
 }
