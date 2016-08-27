@@ -25,7 +25,11 @@ extensions:
 
 ## Usage
 
-There are currently two matchers that are provided by this extension, `shouldContainOnly` and `shouldContainAnyOf`
+The extension currently supports the following matchers:
+
+* `containOnly`
+* `containAnyOf`
+* `containAllOf`
 
 ## `containOnly` matcher
 
@@ -72,3 +76,25 @@ $this->getArray()->shouldNotContainAnyOf(3, 7);
 ```
 
 This is because it contains the value 3, which is one of the values we have said it should *not* contain.
+
+## `containAllOf` matcher
+
+The `containAllOf` matcher will evaluate to true when the array contains all of the elements passed to the matcher.
+
+If `->getArray()` returns `[1, 2, 3]` then the following assertion would hold true:
+
+```php
+$this->getArray()->shouldContainAllOf(2, 3);
+```
+
+However the following example would not:
+
+```php
+$this->getArray()->shouldContainAllOf(2, 3, 4);
+```
+
+Similarly this can be negated with `shouldNotContainAnyOf`. Staying with the same example, the following code would fail:
+
+```php
+$this->getArray()->shouldNotContainAllOf(2, 3)
+```
