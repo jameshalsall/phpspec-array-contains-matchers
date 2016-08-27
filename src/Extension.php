@@ -16,5 +16,9 @@ class Extension implements PhpSpecExtension
         $container->define('jameshalsall.matchers.contain_only', function () {
             return new Matcher\ArrayContainOnlyMatcher();
         }, ['matchers']);
+
+        $container->define('jameshalsall.matchers.contain_all_of', function () {
+            return new Matcher\ArrayContainAllOfMatcher();
+        }, ['matchers']);
     }
 }
