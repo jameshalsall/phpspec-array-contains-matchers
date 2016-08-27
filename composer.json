@@ -1,7 +1,7 @@
 {
     "name": "jameshalsall/phpspec-array-contains-matchers",
     "description": "Provides additional contains matchers for PHPSpec",
-    "type": "phpspec-extensions",
+    "type": "phpspec-extension",
     "require": {
         "php": ">=5.6",
         "phpspec/phpspec": "^3.0"
