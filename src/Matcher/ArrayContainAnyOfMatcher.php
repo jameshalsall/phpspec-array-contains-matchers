@@ -2,6 +2,7 @@
 
 namespace JamesHalsall\PhpSpecContainsMatchers\Matcher;
 
+use JamesHalsall\PhpSpecContainsMatchers\Exception\Factory\ExceptionFactory;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
 use Prophecy\Comparator\Factory;
@@ -9,6 +10,16 @@ use SebastianBergmann\Comparator\ArrayComparator;
 
 class ArrayContainAnyOfMatcher implements Matcher
 {
+    /**
+     * @var ExceptionFactory
+     */
+    private $exceptionFactory;
+
+    public function __construct(ExceptionFactory $exceptionFactory)
+    {
+        $this->exceptionFactory = $exceptionFactory;
+    }
+
     public function supports($name, $subject, array $arguments)
     {
         $comparator = new ArrayComparator();
@@ -27,13 +38,7 @@ class ArrayContainAnyOfMatcher implements Matcher
             }
         }
 
-        throw new FailureException(
-            sprintf(
-                'Expected to find at least one of [%s] in [%s], but did not.',
-                implode(', ', $arguments),
-                implode(', ', $subject)
-            )
-        );
+        throw $this->exceptionFactory->createPositiveMatchFailureException($subject, $arguments);
     }
 
     public function negativeMatch($name, $subject, array $arguments)
@@ -44,13 +49,7 @@ class ArrayContainAnyOfMatcher implements Matcher
             return;
         }
 
-        throw new FailureException(
-            sprintf(
-                'Found one of [%s] in [%s], which is not expected.',
-                implode(', ', $arguments),
-                implode(', ', $subject)
-            )
-        );
+        throw $this->exceptionFactory->createNegativeMatchFailureException($subject, $arguments);
     }
 
     /**
