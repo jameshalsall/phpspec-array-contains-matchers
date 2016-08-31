@@ -2,6 +2,7 @@
 
 namespace spec\JamesHalsall\PhpSpecContainsMatchers\Matcher;
 
+use JamesHalsall\PhpSpecContainsMatchers\Exception\Factory\ExceptionFactory;
 use JamesHalsall\PhpSpecContainsMatchers\Matcher\ArrayContainAllOfMatcher;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
@@ -9,6 +10,11 @@ use PhpSpec\ObjectBehavior;
 
 class ArrayContainAllOfMatcherSpec extends ObjectBehavior
 {
+    function let(ExceptionFactory $exceptionFactory)
+    {
+        $this->beConstructedWith($exceptionFactory);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(ArrayContainAllOfMatcher::class);
@@ -39,23 +45,31 @@ class ArrayContainAllOfMatcherSpec extends ObjectBehavior
         $this->supports('containAllOf', [], [])->shouldReturn(false);
     }
 
-    function it_makes_a_positive_match()
+    function it_makes_a_positive_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createPositiveMatchFailureException()->shouldNotBeCalled();
+
         $this->positiveMatch('containAllOf', ['foo', 'bar', 'baz'], ['foo', 'baz'])->shouldReturn(null);
     }
 
-    function it_throws_exception_for_failed_positive_match()
+    function it_throws_exception_for_failed_positive_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createPositiveMatchFailureException(['foo', 'bar', 'baz'], ['buz', 'baz'])->shouldBeCalled()->willReturn(new FailureException());
+
         $this->shouldThrow(FailureException::class)->duringPositiveMatch('containAllOf', ['foo', 'bar', 'baz'], ['buz', 'baz']);
     }
 
-    function it_makes_a_negative_match()
+    function it_makes_a_negative_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createPositiveMatchFailureException([1, 2], [2, 3])->shouldBeCalled()->willReturn(new FailureException());
+
         $this->negativeMatch('containAllOf', [1, 2], [2, 3])->shouldReturn(null);
     }
 
-    function it_throws_exception_for_failed_negative_match()
+    function it_throws_exception_for_failed_negative_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createNegativeMatchFailureException(['foo', 1, 2], ['foo', 1])->shouldBeCalled()->willReturn(new FailureException());
+
         $this->shouldThrow(FailureException::class)->duringNegativeMatch('containAllOf', ['foo', 1, 2], ['foo', 1]);
     }
 

@@ -2,11 +2,22 @@
 
 namespace JamesHalsall\PhpSpecContainsMatchers\Matcher;
 
+use JamesHalsall\PhpSpecContainsMatchers\Exception\Factory\ExceptionFactory;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
 
 class ArrayContainAllOfMatcher implements Matcher
 {
+    /**
+     * @var ExceptionFactory
+     */
+    private $exceptionFactory;
+
+    public function __construct(ExceptionFactory $exceptionFactory)
+    {
+        $this->exceptionFactory = $exceptionFactory;
+    }
+
     public function supports($name, $subject, array $arguments)
     {
         return 'containAllOf' === $name
@@ -19,14 +30,7 @@ class ArrayContainAllOfMatcher implements Matcher
         $missingValues = array_diff($arguments, $subject);
 
         if (count($missingValues) > 0) {
-            throw new FailureException(
-                sprintf(
-                    'Expected to find all of [%s] in [%s], but it is missing [%s]',
-                    implode(', ', $arguments),
-                    implode(', ', $subject),
-                    implode(', ', $missingValues)
-                )
-            );
+            throw $this->exceptionFactory->createPositiveMatchFailureException($subject, $arguments);
         }
     }
 
@@ -38,13 +42,7 @@ class ArrayContainAllOfMatcher implements Matcher
             return;
         }
 
-        throw new FailureException(
-            sprintf(
-                'Found all of [%s] in [%s], but did not expect that',
-                implode(', ', $arguments),
-                implode(', ', $subject)
-            )
-        );
+        throw $this->exceptionFactory->createNegativeMatchFailureException($subject, $arguments);
     }
 
     public function getPriority()
