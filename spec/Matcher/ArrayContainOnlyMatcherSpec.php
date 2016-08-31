@@ -2,6 +2,7 @@
 
 namespace spec\JamesHalsall\PhpSpecContainsMatchers\Matcher;
 
+use JamesHalsall\PhpSpecContainsMatchers\Exception\Factory\ExceptionFactory;
 use JamesHalsall\PhpSpecContainsMatchers\Matcher\ArrayContainOnlyMatcher;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
@@ -9,6 +10,11 @@ use PhpSpec\ObjectBehavior;
 
 class ArrayContainOnlyMatcherSpec extends ObjectBehavior
 {
+    function let(ExceptionFactory $exceptionFactory)
+    {
+        $this->beConstructedWith($exceptionFactory);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(ArrayContainOnlyMatcher::class);
@@ -39,25 +45,35 @@ class ArrayContainOnlyMatcherSpec extends ObjectBehavior
         $this->supports('containOnly', [1, 2], [])->shouldReturn(false);
     }
 
-    function it_makes_a_positive_match()
+    function it_makes_a_positive_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createPositiveMatchFailureException()->shouldNotBeCalled();
+
         $this->positiveMatch('containOnly', [1, 2], [1, 2])->shouldReturn(null);
         $this->positiveMatch('containOnly', ['foo', 'bar'], ['bar', 'foo'])->shouldReturn(null);
     }
 
-    function it_throws_exception_for_failed_positive_match()
+    function it_throws_exception_for_failed_positive_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createPositiveMatchFailureException([1, 2], [1])->shouldBeCalled()->willReturn(new FailureException());
+        $exceptionFactory->createPositiveMatchFailureException(['foo', 'bar'], ['bar'])->shouldBeCalled()->willReturn(new FailureException());
+
         $this->shouldThrow(FailureException::class)->duringPositiveMatch('containOnly', [1, 2], [1]);
         $this->shouldThrow(FailureException::class)->duringPositiveMatch('containOnly', ['foo', 'bar'], ['bar']);
     }
 
-    function it_makes_a_negative_match()
+    function it_makes_a_negative_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createPositiveMatchFailureException([1, 2], [1, 2, 3])->shouldbeCalled()->willReturn(new FailureException());
+
         $this->negativeMatch('containOnly', [1 ,2], [1, 2, 3])->shouldReturn(null);
     }
 
-    function it_throws_exception_for_failed_negative_match()
+    function it_throws_exception_for_failed_negative_match(ExceptionFactory $exceptionFactory)
     {
+        $exceptionFactory->createNegativeMatchFailureException([1, 2], [1, 2])->shouldBeCalled()->willReturn(new FailureException());
+        $exceptionFactory->createNegativeMatchFailureException(['foo', 'bar'], ['foo', 'bar'])->shouldBeCalled()->willReturn(new FailureException());
+
         $this->shouldThrow(FailureException::class)->duringNegativeMatch('containOnly', [1, 2], [1, 2]);
         $this->shouldThrow(FailureException::class)->duringNegativeMatch('containOnly', ['foo', 'bar'], ['foo', 'bar']);
     }

@@ -2,6 +2,7 @@
 
 namespace JamesHalsall\PhpSpecContainsMatchers\Matcher;
 
+use JamesHalsall\PhpSpecContainsMatchers\Exception\Factory\ExceptionFactory;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
 use Prophecy\Comparator\Factory;
@@ -10,6 +11,16 @@ use SebastianBergmann\Comparator\ComparisonFailure;
 
 class ArrayContainOnlyMatcher implements Matcher
 {
+    /**
+     * @var ExceptionFactory
+     */
+    private $exceptionFactory;
+
+    public function __construct(ExceptionFactory $exceptionFactory)
+    {
+        $this->exceptionFactory = $exceptionFactory;
+    }
+
     public function supports($name, $subject, array $arguments)
     {
         $comparator = new ArrayComparator();
@@ -24,13 +35,7 @@ class ArrayContainOnlyMatcher implements Matcher
         try {
             $this->getComparator()->assertEquals($subject, $arguments, 0, true);
         } catch (ComparisonFailure $e) {
-            throw new FailureException(
-                sprintf(
-                    'The containOnly() matcher failed: Expected array of [%s] but got [%s]',
-                    implode(', ', $arguments),
-                    implode(', ', $subject)
-                )
-            );
+            throw $this->exceptionFactory->createPositiveMatchFailureException($subject, $arguments);
         }
     }
 
@@ -42,13 +47,7 @@ class ArrayContainOnlyMatcher implements Matcher
             return;
         }
 
-        throw new FailureException(
-            sprintf(
-                'The containOnly() matcher should have failed: Array of [%s] should not have matched [%s]',
-                implode(', ', $arguments),
-                implode(',', $subject)
-            )
-        );
+        throw $this->exceptionFactory->createNegativeMatchFailureException($subject, $arguments);
     }
 
     /**
