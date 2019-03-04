@@ -8,12 +8,9 @@ matrix:
     - php: 7.1
     - php: 7.2
     - php: 7.3
-    # test with oldest dependencies too
-    - php: 7.2
-      env: PREFER_LOWEST=1
 
 install:
-  - tools/build/composer.sh
+  - composer install
 
 script:
   - bin/phpspec run --format=pretty

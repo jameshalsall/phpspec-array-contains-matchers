@@ -5,6 +5,7 @@ namespace JamesHalsall\PhpSpecContainsMatchers\Matcher;
 use JamesHalsall\PhpSpecContainsMatchers\Exception\Factory\ExceptionFactory;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
+use PhpSpec\Wrapper\DelayedCall;
 
 class ArrayContainAllOfMatcher implements Matcher
 {
@@ -25,7 +26,7 @@ class ArrayContainAllOfMatcher implements Matcher
             && is_array($subject);
     }
 
-    public function positiveMatch(string $name, $subject, array $arguments)
+    public function positiveMatch(string $name, $subject, array $arguments): ?DelayedCall
     {
         $missingValues = array_diff($arguments, $subject);
 
@@ -33,15 +34,15 @@ class ArrayContainAllOfMatcher implements Matcher
             throw $this->exceptionFactory->createPositiveMatchFailureException($subject, $arguments);
         }
 
-        return true;
+        return null;
     }
 
-    public function negativeMatch(string $name, $subject, array $arguments)
+    public function negativeMatch(string $name, $subject, array $arguments): ?DelayedCall
     {
         try {
             $this->positiveMatch($name, $subject, $arguments);
         } catch (FailureException $e) {
-            return true;
+            return null;
         }
 
         throw $this->exceptionFactory->createNegativeMatchFailureException($subject, $arguments);

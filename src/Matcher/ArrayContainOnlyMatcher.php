@@ -5,6 +5,7 @@ namespace JamesHalsall\PhpSpecContainsMatchers\Matcher;
 use JamesHalsall\PhpSpecContainsMatchers\Exception\Factory\ExceptionFactory;
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\Matcher\Matcher;
+use PhpSpec\Wrapper\DelayedCall;
 use Prophecy\Comparator\Factory;
 use SebastianBergmann\Comparator\ArrayComparator;
 use SebastianBergmann\Comparator\ComparisonFailure;
@@ -30,21 +31,23 @@ class ArrayContainOnlyMatcher implements Matcher
             && $comparator->accepts($subject, $arguments);
     }
 
-    public function positiveMatch(string $name, $subject, array $arguments)
+    public function positiveMatch(string $name, $subject, array $arguments): ?DelayedCall
     {
         try {
             $this->getComparator()->assertEquals($subject, $arguments, 0, true);
+
+            return null;
         } catch (ComparisonFailure $e) {
             throw $this->exceptionFactory->createPositiveMatchFailureException($subject, $arguments);
         }
     }
 
-    public function negativeMatch(string $name, $subject, array $arguments)
+    public function negativeMatch(string $name, $subject, array $arguments): ?DelayedCall
     {
         try {
             $this->positiveMatch($name, $subject, $arguments);
         } catch (FailureException $e) {
-            return;
+            return null;
         }
 
         throw $this->exceptionFactory->createNegativeMatchFailureException($subject, $arguments);
