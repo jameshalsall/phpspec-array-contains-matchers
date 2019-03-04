@@ -4,12 +4,16 @@ sudo: false
 
 matrix:
   include:
-    - php: 5.6
     - php: hhvm
-    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+    # test with oldest dependencies too
+    - php: 7.2
+      env: PREFER_LOWEST=1
 
 install:
-  - composer install
+  - tools/build/composer.sh
 
 script:
   - bin/phpspec run --format=pretty
