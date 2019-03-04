@@ -4,7 +4,7 @@
     "type": "phpspec-extension",
     "require": {
         "php": ">=7.1",
-        "phpspec/phpspec": "^4.0 || ^5.0"
+        "phpspec/phpspec": "^5.0"
     },
     "require-dev": {
         "behat/behat": "^3.1"
