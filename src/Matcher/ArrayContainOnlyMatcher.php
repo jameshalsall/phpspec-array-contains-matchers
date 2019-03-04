@@ -30,23 +30,21 @@ class ArrayContainOnlyMatcher implements Matcher
             && $comparator->accepts($subject, $arguments);
     }
 
-    public function positiveMatch(string $name, $subject, array $arguments): bool
+    public function positiveMatch(string $name, $subject, array $arguments)
     {
         try {
             $this->getComparator()->assertEquals($subject, $arguments, 0, true);
-
-            return true;
         } catch (ComparisonFailure $e) {
             throw $this->exceptionFactory->createPositiveMatchFailureException($subject, $arguments);
         }
     }
 
-    public function negativeMatch(string $name, $subject, array $arguments): bool
+    public function negativeMatch(string $name, $subject, array $arguments)
     {
         try {
             $this->positiveMatch($name, $subject, $arguments);
         } catch (FailureException $e) {
-            return true;
+            return;
         }
 
         throw $this->exceptionFactory->createNegativeMatchFailureException($subject, $arguments);

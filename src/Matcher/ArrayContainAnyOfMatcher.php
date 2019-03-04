@@ -30,23 +30,23 @@ class ArrayContainAnyOfMatcher implements Matcher
             && $comparator->accepts($subject, $arguments);
     }
 
-    public function positiveMatch(string $name, $subject, array $arguments): bool
+    public function positiveMatch(string $name, $subject, array $arguments)
     {
         foreach ($arguments as $argument) {
             if (in_array($argument, $subject, true)) {
-                return true;
+                return;
             }
         }
 
         throw $this->exceptionFactory->createPositiveMatchFailureException($subject, $arguments);
     }
 
-    public function negativeMatch(string $name, $subject, array $arguments): bool
+    public function negativeMatch(string $name, $subject, array $arguments)
     {
         try {
             $this->positiveMatch($name, $subject, $arguments);
         } catch (FailureException $e) {
-            return true;
+            return;
         }
 
         throw $this->exceptionFactory->createNegativeMatchFailureException($subject, $arguments);

@@ -25,7 +25,7 @@ class ArrayContainAllOfMatcher implements Matcher
             && is_array($subject);
     }
 
-    public function positiveMatch(string $name, $subject, array $arguments): bool
+    public function positiveMatch(string $name, $subject, array $arguments)
     {
         $missingValues = array_diff($arguments, $subject);
 
@@ -36,7 +36,7 @@ class ArrayContainAllOfMatcher implements Matcher
         return true;
     }
 
-    public function negativeMatch(string $name, $subject, array $arguments): bool
+    public function negativeMatch(string $name, $subject, array $arguments)
     {
         try {
             $this->positiveMatch($name, $subject, $arguments);
